@@ -89,23 +89,26 @@
 	<script src="/js/myemojiPl.js"></script>
 	<script>
 		var socket = io();
-		$("#contents").keydown(function(e){
+		$(".Input_text").keydown(function(e){
 			if(e.keyCode == 13){
 				//传输文本内容
+				console.log("ddd");
 				socket.emit("chats",{
-					"contents" : $("#contents").val(),
+					"contents" : $(".Input_text").html(),
 					"user": $("#user").html()
 				});
-				$(this).val("");
+				$(this).html("");
+				$(".faceDiv").hide();
 			}
 		})
-		$("#submit").click(function(e){
+		$(".postBtn").click(function(e){
 			//传输文本内容
 			socket.emit("chats",{
-				"contents" : $("#contents").val(),
+				"contents" : $(".Input_text").html(),
 				"user": $("#user").html()
 			});
-			$(this).val("");
+			$(".Input_text").html("");
+			$(".faceDiv").hide();
 
 		});
 		socket.on("chats",function (msg) {
@@ -114,7 +117,6 @@
 		})
 
 		var window_width = $(window).width();
-		console.log(window_width)
 		if(window_width<678) {
 			$(".user_input")
 			.addClass("navbar-fixed-bottom")

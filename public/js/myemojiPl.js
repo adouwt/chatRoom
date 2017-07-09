@@ -123,8 +123,8 @@
 				// }
 			},
 			postFunction: function() {
-				alert(InputText.html());
-				console.log(InputText.html());
+				// alert(InputText.html());
+				// console.log(InputText.html());
 			}
 		};
 		var opts = $.extend(defaults, options);

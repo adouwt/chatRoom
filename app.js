@@ -60,6 +60,7 @@ var alluser = [];
   io.on("connection",function(socket){//socket实际在运行的时候，表示用户的客户端
   	socket.on("chats",function (msg) {
   		//把接受到的信息在返回到页面中去 （广播）
+      console.log(msg);
   		io.emit("chats",msg);
   	});
   });
