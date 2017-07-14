@@ -111,9 +111,9 @@
 			$(".faceDiv").hide();
 
 		});
-		socket.on("chats",function (msg) {
+		socket.on("chats",function (msg2) {
 			//console.log(msg);// object{contents:..,user:...}
-			$(".chatcontents").prepend("<li><b>"+msg.user+":</b>"+msg.contents+"</li>")
+			$(".chatcontents").prepend("<li><b>"+msg2.user+":</b>"+msg2.contents+"</li>")
 		})
 
 		var window_width = $(window).width();
