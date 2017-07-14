@@ -16,6 +16,7 @@ app.use(session({
 app.set("view engine","ejs");
 //静态服务
 app.use(express.static("./assets"));
+app.use("/avatar",express.static("./avatar"));
 
 
 //用户数组
@@ -156,7 +157,7 @@ app.post("/doSetavatar",router.doSetavatar);
   io.on("connection",function(socket){//socket实际在运行的时候，表示用户的客户端
   	socket.on("chats",function (msg) {
   		//把接受到的信息在返回到页面中去 （广播）
-      console.log(msg);
+      // console.log(msg);
   		io.emit("chats",msg);
   	});
   });
