@@ -155,11 +155,21 @@ app.post("/doSetavatar",router.doSetavatar);
 
   //广播数据
   io.on("connection",function(socket){//socket实际在运行的时候，表示用户的客户端
-  	socket.on("chats",function (msg) {
+  	socket.on("596b1c0c522efa065f27df50",function (msg) {
   		//把接受到的信息在返回到页面中去 （广播）
-      // console.log(msg);
-  		io.emit("chats",msg);
+  		io.emit("596b1c0c522efa065f27df50",msg);
   	});
   });
 
-http.listen(4000);
+   io.on("connection",function(socket){//socket实际在运行的时候，表示用户的客户端
+    socket.on("chats",function (msg) {
+      //把接受到的信息在返回到页面中去 （广播）
+      io.emit("chats",msg);
+    });
+  });
+
+  // io.on('disconnect', function(){}) //提示该商品用户是否在线
+
+http.listen(4000, function () {
+  console.log("项目启动成功");
+});

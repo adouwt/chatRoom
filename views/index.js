@@ -14,22 +14,8 @@ app.use(session({
 app.set("view engine","ejs");
 app.use(express.static("./assets"));
 app.use("/avatar",express.static("./avatar"));
-app.use("/product_img",express.static("./product_img"));
 
 //路由表
-
-//展示主页(exchange)
-// app.get("/",router.showExchange);
-
-//展示变卖页
-// app.get("/sale",router.showSale);
-
-//展示赠送
-// app.get("/send",router.showSend);
-
-//展示捐献
-// app.get("/donate",router.showDonate);
-
 
 //获得交换商品提交页面
 app.get("/add_exchange_product",router.showAddExchangeProduct);

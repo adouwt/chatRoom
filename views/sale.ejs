@@ -32,7 +32,7 @@
             <% for(var i= 0;i<result.length;i++) {%>
              <% var name = result[i].username + result[i].userGoodsName %>
              <% var _id = result[i]._id %>
-              <section class="goodsList">
+              <section class="goodsList" data-id="<%= _id%>">
                 <div class="container-fluid">
                   <% if(result[i].goodsStatus == "finish") { %>
                         <div class="row disabled">
@@ -158,8 +158,8 @@
                   <% } else {%> 
                     <i class="fa fa-times" style="display: none;"></i>
                   <% } %>
-              </section>
-              <!-- Modal -->
+
+                <!-- Modal -->
               <div class="modal fade" id="<%=_id%>" tabindex="-1" role="dialog" aria-labelledby="my<%=_id%>">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
@@ -169,9 +169,9 @@
                     </div>
                     <div class="modal-body">
                       <ul id="chat<%=_id%>">
-                        <input type="" name="" class="Input_text">
-                        <button class="postBtn">add</button>
-                        <div class="_id"></div>
+                        <input type="" name="" class="online-msg-input">
+                        <button class="online-msg-submit">发送</button>
+                        <div class='<%= _id%>'></div>
                       </ul>
                     </div>
                     <div class="modal-footer">
@@ -180,6 +180,8 @@
                   </div>
                 </div>
               </div>
+              </section>
+              
               <hr>
             <% }%>
           </section>
@@ -198,22 +200,40 @@
 
     <script type="text/javascript" src="/js/jquery-1.10.2.js"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/js/socket.io.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="/js/custom-styles.js"></script>
     <script>  
       //立即联系
       var socket = io();
-      $(".postBtn").click(function(e){
-        //传输文本内容
-        alert(3333)
-        socket.emit("chats",$(".Input_text").html());
-        $(".Input_text").html("");
+      var goodsList = $(".saleList .goodsList");
+      var currentGoodsId = null;
+      var username = $("#username").html()
 
-      });
-      socket.on("chats",function (msg2) {
-        //console.log(msg);// object{contents:..,user:...}
-        $("._id").prepend("<li><b>"+msg2.contents+"</li>")
+      
+      function getChatMsg (e) {
+        e = this;
+        currentGoodsId = $(e).parents(".goodsList").attr("data-id");
+        //传输文本内容
+        var msgContent = $(".online-msg-input").val();
+        var msgObject = {
+          "currentGoodsId":  currentGoodsId,
+          "msgContent": msgContent,
+          "username": username
+        }
+        socket.emit(currentGoodsId, msgObject);
+        $(".online-msg-input").val("");
+      }
+
+      $(document).on("click", ".online-msg-submit", getChatMsg);
+
+      goodsList.each(function (i) {
+        var currentGoodsId_receive = $(this).attr("data-id")
+        socket.on(currentGoodsId_receive,function (msg) {
+          console.log(msg.msgContent);// object{contents:..,user:...}
+          $("."+ currentGoodsId_receive).prepend("<li><b>"+msg.username +"</b><b>:"+msg.msgContent+"</b></li>")
+        })
       })
+
     </script>
   </body>
 </html>
